@@ -69,9 +69,14 @@ pub fn Table(
                     teams().into_iter().map(|(_, players)| {
                         let rows = players.into_iter().map(|player| {
                             let is_selected = move || selected_player_slots.get().contains(&player.slot);
+                            let style = if player.team_number % 2 == 0 {
+                                "background-color: #bdbdbd"
+                            } else {
+                                ""
+                            };
 
                             view! {
-                                <tr>
+                                <tr style=style>
                                     <td>
                                         <input
                                             type="checkbox"
