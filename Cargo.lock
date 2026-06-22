@@ -2078,6 +2078,8 @@ dependencies = [
  "getrandom 0.3.4",
  "gloo-file",
  "leptos",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]
