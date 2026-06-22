@@ -67,13 +67,15 @@ pub fn Table(
                             if let Some(p) = players_vec.get(*idx) {
                                 let idx_copy = *idx;
                                 let is_selected = move || selected_player_slots.get().contains(&idx_copy);
+                                let player_slot = p.slot.clone();
+
                                 Either::Left(view! {
                                     <tr>
                                         <td>
                                             <input
                                                 type="checkbox"
                                                 checked=is_selected()
-                                                on:change=move |_| on_player_select(idx_copy)
+                                                on:change=move |_| on_player_select(player_slot)
                                             />
                                         </td>
                                         <td>{p.name.clone()}</td>
