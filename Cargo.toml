@@ -11,3 +11,4 @@ gloo-file = "0.4.0"
 demo = { path = "demo" }
 web-sys = "0.3.102"
 wasm-bindgen-futures = "0.4.75"
+js-sys = "0.3"

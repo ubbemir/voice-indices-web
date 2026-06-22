@@ -2077,6 +2077,7 @@ dependencies = [
  "demo",
  "getrandom 0.3.4",
  "gloo-file",
+ "js-sys",
  "leptos",
  "wasm-bindgen-futures",
  "web-sys",
