@@ -1,14 +1,7 @@
-#![allow(dead_code)]
-
-use std::path::Path;
-
 use ahash::AHashMap;
 use csgoproto::CsvcMsgVoiceData;
 use parser::{
-    first_pass::{
-        parser_settings::{ParserInputs, create_mmap},
-        read_bits::DemoParserError,
-    },
+    first_pass::{parser_settings::ParserInputs, read_bits::DemoParserError},
     parse_demo::Parser,
     second_pass::parser_settings::{PlayerEndMetaData, create_huffman_lookup_table},
 };
@@ -55,7 +48,7 @@ pub enum Error {
     MissingPlayerField(&'static str),
 }
 
-pub fn extract_player_info(demo_path: &Path) -> Result<Vec<PlayerData>, Error> {
+pub fn extract_player_info(demo_data: &[u8]) -> Result<Vec<PlayerData>, Error> {
     let settings = ParserInputs {
         real_name_to_og_name: AHashMap::default(),
         wanted_players: vec![],
@@ -74,9 +67,9 @@ pub fn extract_player_info(demo_path: &Path) -> Result<Vec<PlayerData>, Error> {
         order_by_steamid: false,
         fallback_bytes: None,
     };
-    let mmap = create_mmap(demo_path.display().to_string())?;
+
     let mut parser = Parser::new(settings, parser::parse_demo::ParsingMode::Normal);
-    let output = parser.parse_demo(&mmap)?;
+    let output = parser.parse_demo(demo_data)?;
 
     let voice_sample = &output.voice_data[0].1;
     let slot_offset = get_player_slot_offset(output.player_md.iter(), voice_sample)
