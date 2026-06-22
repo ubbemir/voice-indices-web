@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 
 use demo::demo::PlayerData;
-use leptos::either::Either;
 use leptos::prelude::*;
 
 pub type SelectedSlots = HashSet<usize>;
@@ -12,29 +11,36 @@ pub fn Table(
     selected_player_slots: ReadSignal<SelectedSlots>,
     set_selected_player_slots: WriteSignal<SelectedSlots>,
 ) -> impl IntoView {
-    let on_player_select = move |index: usize| {
+    let on_player_select = move |slot: usize| {
         let mut selected = selected_player_slots.get();
-        if selected.contains(&index) {
-            selected.remove(&index);
+        if selected.contains(&slot) {
+            selected.remove(&slot);
         } else {
-            selected.insert(index);
+            selected.insert(slot);
         }
         set_selected_player_slots.set(selected.clone());
     };
 
-    let players_data = move || {
-        let players_vec = players.get();
+    let teams = move || {
         let mut teams = std::collections::HashMap::new();
-        for (idx, p) in players_vec.iter().enumerate() {
+        for player in players.get().iter() {
             teams
-                .entry(p.team_number)
+                .entry(player.team_number)
                 .or_insert_with(Vec::new)
-                .push(idx);
+                .push(player.clone());
         }
 
-        let mut team_ids: Vec<_> = teams.keys().copied().collect();
-        team_ids.sort();
-        (teams, team_ids, players_vec)
+        let mut teams = teams
+            .into_iter()
+            .map(|(team_num, mut players)| {
+                players.sort_by_key(|p| p.slot);
+                (team_num, players)
+            })
+            .collect::<Vec<_>>();
+
+        teams.sort_by_key(|(team, _)| *team);
+
+        teams
     };
 
     view! {
@@ -60,32 +66,24 @@ pub fn Table(
             </thead>
             <tbody>
                 {move || {
-                    let (teams, team_ids, players_vec) = players_data();
-                    team_ids.into_iter().map(|team_id| {
-                        let team_player_indices = teams.get(&team_id).unwrap().clone();
-                        let rows: Vec<_> = team_player_indices.iter().map(|idx| {
-                            if let Some(p) = players_vec.get(*idx) {
-                                let idx_copy = *idx;
-                                let is_selected = move || selected_player_slots.get().contains(&idx_copy);
-                                let player_slot = p.slot.clone();
+                    teams().into_iter().map(|(_, players)| {
+                        let rows = players.into_iter().map(|player| {
+                            let is_selected = move || selected_player_slots.get().contains(&player.slot);
 
-                                Either::Left(view! {
-                                    <tr>
-                                        <td>
-                                            <input
-                                                type="checkbox"
-                                                checked=is_selected()
-                                                on:change=move |_| on_player_select(player_slot)
-                                            />
-                                        </td>
-                                        <td>{p.name.clone()}</td>
-                                        <td>{p.team_number}</td>
-                                        <td>{p.slot}</td>
-                                        <td>{p.steamid}</td>
-                                    </tr>
-                                })
-                            } else {
-                                Either::Right(view! {})
+                            view! {
+                                <tr>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked=is_selected()
+                                            on:change=move |_| on_player_select(player.slot)
+                                        />
+                                    </td>
+                                    <td>{player.name}</td>
+                                    <td>{player.team_number}</td>
+                                    <td>{player.slot}</td>
+                                    <td>{player.steamid}</td>
+                                </tr>
                             }
                         }).collect::<Vec<_>>();
                         view! {
