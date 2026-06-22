@@ -5,3 +5,6 @@ edition = "2024"
 
 [dependencies]
 leptos = { version = "0.8.19", features = ["csr"] }
+getrandom = { version = "0.3", features = ["wasm_js"] }
+
+demo = { path = "demo" }

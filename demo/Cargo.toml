@@ -1,0 +1,11 @@
+[package]
+name = "demo"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+parser = { git = "https://github.com/LaihoE/demoparser.git", rev = "e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"}
+csgoproto = { git = "https://github.com/LaihoE/demoparser.git", rev = "e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"}
+ahash = "0.8.12"
+getrandom ={ version = "0.2.17", features = ["js"] }
+thiserror = "2.0.18"
