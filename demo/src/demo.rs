@@ -7,7 +7,7 @@ use parser::{
 };
 use thiserror::Error;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PlayerData {
     pub index: usize,
     pub slot: usize,
