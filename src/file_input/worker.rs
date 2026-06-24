@@ -14,7 +14,7 @@ pub struct Response {
     pub result: Result<PlayerInfo, ()>,
 }
 
-#[worker(DemoParser)]
+#[worker]
 pub async fn demo_parser(req: Request) -> Response {
     let mut bytes = vec![0; req.data.length() as usize];
     req.data.copy_to(&mut bytes);
