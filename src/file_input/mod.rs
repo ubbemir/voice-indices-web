@@ -56,7 +56,7 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
     });
 
     view! {
-        <input type="file" on:change=on_file_change/>
+        <input type="file" on:change=on_file_change prop:disabled = move || demo_parse_process.get().is_some() />
         <strong>{parse_message}</strong>
     }
 }
