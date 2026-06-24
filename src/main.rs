@@ -15,11 +15,16 @@ fn App() -> impl IntoView {
     let (player_info, set_player_info) = signal::<Option<PlayerInfo>>(None);
     let (selected_players, set_selected_players) = signal::<SelectedSlots>(Default::default());
 
+    let on_player_info = move |info| {
+        set_player_info.set(Some(info));
+        set_selected_players.set(Default::default());
+    };
+
     view! {
         <div style="padding: 20px; font-family: Arial, sans-serif;">
             <h1>"Demo Parser"</h1>
 
-            <DemoFileInput on_player_info=move |info| set_player_info.set(Some(info)) />
+            <DemoFileInput on_player_info=on_player_info />
             {move || {
                 if let Some(players) = player_info.get() {
                     Either::Left(view! {
