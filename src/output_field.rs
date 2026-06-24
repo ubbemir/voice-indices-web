@@ -10,6 +10,8 @@ pub fn OutputField(selected_player_slots: ReadSignal<SelectedSlots>) -> impl Int
     };
 
     view! {
-        <p>{output}</p>
+        <pre>
+            <code>{output}</code>
+        </pre>
     }
 }

@@ -48,13 +48,9 @@ pub fn Table(
             <thead>
                 <tr>
                     <th>
-                        "Select"
                     </th>
                     <th>
                         "Name"
-                    </th>
-                    <th>
-                        "Team"
                     </th>
                     <th>
                         "Slot"
@@ -85,7 +81,6 @@ pub fn Table(
                                         />
                                     </td>
                                     <td>{player.name}</td>
-                                    <td>{player.team_number}</td>
                                     <td>{player.slot}</td>
                                     <td>{player.steamid}</td>
                                 </tr>
