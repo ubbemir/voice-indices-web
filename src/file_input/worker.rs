@@ -16,7 +16,7 @@ pub struct Response {
 
 #[worker]
 pub async fn demo_parser(req: Request) -> Response {
-    let mut bytes = Vec::with_capacity(req.data.length() as usize);
+    let mut bytes = vec![0; req.data.length() as usize];
     req.data.copy_to(&mut bytes);
 
     let parse_result = extract_player_info(&bytes);
