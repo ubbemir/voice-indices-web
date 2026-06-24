@@ -18,7 +18,7 @@ pub fn DemoFileInput(set_player_info: WriteSignal<Option<PlayerInfo>>) -> impl I
             set_demo_parse_process.set(Some(LocalResource::new(move || {
                 let promise = file.bytes();
                 async move {
-                    let bytes_value = wasm_bindgen_futures::JsFuture::from(promise).await.unwrap();
+                    let bytes_value = promise.await.unwrap();
                     let byte_array = js_sys::Uint8Array::new(&bytes_value);
 
                     worker::demo_parser(worker::Request { data: byte_array }).await

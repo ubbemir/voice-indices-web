@@ -6,11 +6,10 @@ edition = "2024"
 [dependencies]
 leptos = { version = "0.8.19", features = ["csr"] }
 getrandom = { version = "0.3", features = ["wasm_js"] }
-gloo-file = "0.4.0"
 
 demo = { path = "demo" }
 web-sys = "0.3.102"
-wasm-bindgen-futures = "0.4.75"
 js-sys = "0.3"
 leptos_workers = "0.3.0"
 serde = { version = "1.0.228", features = ["derive"] }
+console_error_panic_hook = "0.1.7"

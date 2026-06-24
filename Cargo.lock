@@ -670,8 +670,8 @@ checksum = "28999cda5ef6916ffd33fb4a7b87e1de633c47c0dc6d97905fee1cdaa142b94d"
 dependencies = [
  "gloo-console",
  "gloo-dialogs",
- "gloo-events 0.1.2",
- "gloo-file 0.2.3",
+ "gloo-events",
+ "gloo-file",
  "gloo-history",
  "gloo-net 0.3.1",
  "gloo-render",
@@ -715,34 +715,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "gloo-events"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c6a94fa8cd88bea0babf8a27fe9abbcdece831fd1c3c84dd5c231fab4685ec7"
-dependencies = [
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
 name = "gloo-file"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8d5564e570a38b43d78bdc063374a0c3098c4f0d64005b12f9bbe87e869b6d7"
 dependencies = [
- "gloo-events 0.1.2",
- "js-sys",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
-name = "gloo-file"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "544a15ff6a3d5976bebc97380c8471ae14283bc71f4bb198d6c8cae64f411ab7"
-dependencies = [
- "gloo-events 0.3.0",
+ "gloo-events",
  "js-sys",
  "wasm-bindgen",
  "web-sys",
@@ -754,7 +732,7 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "85725d90bf0ed47063b3930ef28e863658a7905989e9929a8708aab74a1d5e7f"
 dependencies = [
- "gloo-events 0.1.2",
+ "gloo-events",
  "gloo-utils 0.1.7",
  "serde",
  "serde-wasm-bindgen 0.5.0",
@@ -2578,14 +2556,13 @@ checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 name = "voice-indices-web"
 version = "0.1.0"
 dependencies = [
+ "console_error_panic_hook",
  "demo",
  "getrandom 0.3.4",
- "gloo-file 0.4.0",
  "js-sys",
  "leptos",
  "leptos_workers",
  "serde",
- "wasm-bindgen-futures",
  "web-sys",
 ]
 
