@@ -9,10 +9,10 @@ pub type PlayerInfo = Vec<PlayerData>;
 
 #[component]
 pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> impl IntoView {
-    let (demo_parse_process, set_demo_parse_process) = signal::<Option<_>>(None);
+    let (parse_process, set_parse_process) = signal::<Option<_>>(None);
     let (error, set_error) = signal::<Option<()>>(None);
     let parse_message = move || {
-        if demo_parse_process.get().is_some() {
+        if parse_process.get().is_some() {
             Some("Parsing demo ...")
         } else if error.get().is_some() {
             Some("Error parsing demo file!")
@@ -26,7 +26,7 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
         if let Some(file_list) = input.files()
             && let Some(file) = file_list.get(0)
         {
-            set_demo_parse_process.set(Some(LocalResource::new(move || {
+            set_parse_process.set(Some(LocalResource::new(move || {
                 let bytes = file.bytes();
                 async move {
                     let byte_array = Uint8Array::new(&bytes.await.unwrap());
@@ -38,7 +38,7 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
     };
 
     Effect::new(move |_| {
-        let Some(process) = demo_parse_process.get() else {
+        let Some(process) = parse_process.get() else {
             return;
         };
 
@@ -58,12 +58,12 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
         };
 
         on_player_info(player_info);
-        set_demo_parse_process.set(None);
+        set_parse_process.set(None);
         set_error.set(None);
     });
 
     view! {
-        <input type="file" on:change=on_file_change prop:disabled = move || demo_parse_process.get().is_some() />
+        <input type="file" on:change=on_file_change prop:disabled = move || parse_process.get().is_some() />
         <strong>{parse_message}</strong>
     }
 }
