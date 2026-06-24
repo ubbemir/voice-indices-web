@@ -39,7 +39,7 @@ fn App() -> impl IntoView {
                         <OutputField selected_player_slots=selected_players />
                     })
                 } else {
-                    Either::Right(view! {})
+                    Either::Right(())
                 }
             }}
         </div>
