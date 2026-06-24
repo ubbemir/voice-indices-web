@@ -10,11 +10,11 @@ pub type PlayerInfo = Vec<PlayerData>;
 #[component]
 pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> impl IntoView {
     let (parse_process, set_parse_process) = signal::<Option<_>>(None);
-    let (error, set_error) = signal::<Option<()>>(None);
+    let (error, set_error) = signal::<bool>(false);
     let parse_message = move || {
         if parse_process.get().is_some() {
             Some("Parsing demo ...")
-        } else if error.get().is_some() {
+        } else if error.get() {
             Some("Error parsing demo file!")
         } else {
             None
@@ -48,18 +48,18 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
         };
 
         let Ok(worker_response) = result else {
-            set_error.set(Some(()));
+            set_error.set(true);
             return;
         };
 
         let Ok(player_info) = worker_response.result else {
-            set_error.set(Some(()));
+            set_error.set(true);
             return;
         };
 
         on_player_info(player_info);
         set_parse_process.set(None);
-        set_error.set(None);
+        set_error.set(false);
     });
 
     view! {
