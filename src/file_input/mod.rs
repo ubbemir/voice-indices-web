@@ -28,19 +28,20 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
     };
 
     Effect::new(move |_| {
-        let Some(local_resource) = demo_parse_process.get() else {
+        let Some(process) = demo_parse_process.get() else {
             return;
         };
 
-        let Some(blabla) = local_resource.get() else {
+        // we get a result if process.get returns 'Some' otherwise it is not ready yet
+        let Some(result) = process.get() else {
             return;
         };
 
-        let Ok(response) = blabla else {
+        let Ok(worker_response) = result else {
             return;
         };
 
-        let Ok(player_info) = response.result else {
+        let Ok(player_info) = worker_response.result else {
             return;
         };
 
