@@ -16,8 +16,8 @@ fn App() -> impl IntoView {
     let (selected_players, set_selected_players) = signal::<SelectedSlots>(Default::default());
 
     let on_player_info = move |info| {
-        set_player_info.set(Some(info));
         set_selected_players.set(Default::default());
+        set_player_info.set(Some(info));
     };
 
     view! {
