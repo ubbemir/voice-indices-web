@@ -5,9 +5,10 @@ use parser::{
     parse_demo::Parser,
     second_pass::parser_settings::{PlayerEndMetaData, create_huffman_lookup_table},
 };
+use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayerData {
     pub index: usize,
     pub slot: usize,

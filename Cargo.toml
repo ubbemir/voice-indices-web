@@ -12,3 +12,5 @@ demo = { path = "demo" }
 web-sys = "0.3.102"
 wasm-bindgen-futures = "0.4.75"
 js-sys = "0.3"
+leptos_workers = "0.3.0"
+serde = { version = "1.0.228", features = ["derive"] }

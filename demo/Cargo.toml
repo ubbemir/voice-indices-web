@@ -9,3 +9,4 @@ csgoproto = { git = "https://github.com/LaihoE/demoparser.git", rev = "e8c1ad452
 ahash = "0.8.12"
 getrandom ={ version = "0.2.17", features = ["js"] }
 thiserror = "2.0.18"
+serde = { version = "1.0.228", features = ["derive"] }
