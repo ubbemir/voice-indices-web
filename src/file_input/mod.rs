@@ -1,4 +1,5 @@
 use demo::demo::PlayerData;
+use js_sys::Uint8Array;
 use leptos::prelude::*;
 use web_sys::{HtmlInputElement, wasm_bindgen::JsCast};
 
@@ -16,10 +17,9 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
             && let Some(file) = file_list.get(0)
         {
             set_demo_parse_process.set(Some(LocalResource::new(move || {
-                let promise = file.bytes();
+                let bytes = file.bytes();
                 async move {
-                    let bytes_value = promise.await.unwrap();
-                    let byte_array = js_sys::Uint8Array::new(&bytes_value);
+                    let byte_array = Uint8Array::new(&bytes.await.unwrap());
 
                     worker::demo_parser(worker::Request { data: byte_array }).await
                 }
