@@ -19,7 +19,7 @@ fn App() -> impl IntoView {
         <div style="padding: 20px; font-family: Arial, sans-serif;">
             <h1>"Demo Parser"</h1>
 
-            <DemoFileInput set_player_info=set_player_info />
+            <DemoFileInput on_player_info=move |info| set_player_info.set(Some(info)) />
             {move || {
                 if let Some(players) = player_info.get() {
                     Either::Left(view! {

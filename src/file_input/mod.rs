@@ -7,7 +7,7 @@ mod worker;
 pub type PlayerInfo = Vec<PlayerData>;
 
 #[component]
-pub fn DemoFileInput(set_player_info: WriteSignal<Option<PlayerInfo>>) -> impl IntoView {
+pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> impl IntoView {
     let (demo_parse_process, set_demo_parse_process) = signal::<Option<_>>(None);
 
     let on_file_change = move |ev: leptos::ev::Event| {
@@ -44,7 +44,7 @@ pub fn DemoFileInput(set_player_info: WriteSignal<Option<PlayerInfo>>) -> impl I
             return;
         };
 
-        set_player_info.set(Some(player_info));
+        on_player_info(player_info);
     });
 
     view! {
