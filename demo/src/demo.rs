@@ -12,7 +12,7 @@ use thiserror::Error;
 pub struct PlayerData {
     pub index: usize,
     pub slot: usize,
-    pub steamid: u64,
+    pub steamid: String,
     pub name: String,
     pub team_number: i32,
 }
@@ -28,7 +28,10 @@ impl PlayerData {
         Ok(PlayerData {
             index,
             slot: slot_from_index(index, slot_offset),
-            steamid: md.steamid.ok_or(Error::MissingPlayerField("steamid"))?,
+            steamid: md
+                .steamid
+                .ok_or(Error::MissingPlayerField("steamid"))?
+                .to_string(),
             name: md.name.ok_or(Error::MissingPlayerField("name"))?,
             team_number: md
                 .team_number
