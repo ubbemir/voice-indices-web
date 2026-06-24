@@ -39,9 +39,7 @@ fn App() -> impl IntoView {
                         <OutputField selected_player_slots=selected_players />
                     })
                 } else {
-                    Either::Right(view! {
-                        <p>"No demo file loaded"</p>
-                    })
+                    Either::Right(view! {})
                 }
             }}
         </div>
