@@ -7,19 +7,15 @@ mod worker;
 
 pub type PlayerInfo = Vec<PlayerData>;
 
+enum Status {
+    Nothing,
+    Parsing,
+    DoneParsing(Result<PlayerInfo, ()>),
+}
+
 #[component]
 pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> impl IntoView {
     let (parse_process, set_parse_process) = signal::<Option<_>>(None);
-    let (error, set_error) = signal::<bool>(false);
-    let parse_message = move || {
-        if parse_process.get().is_some() {
-            Some("Parsing demo ...")
-        } else if error.get() {
-            Some("Error parsing demo file!")
-        } else {
-            None
-        }
-    };
 
     let on_file_change = move |ev: leptos::ev::Event| {
         let input: HtmlInputElement = ev.target().unwrap().unchecked_into();
@@ -37,33 +33,41 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
         }
     };
 
-    Effect::new(move |_| {
+    let status = move || {
         let Some(process) = parse_process.get() else {
-            return;
+            return Status::Nothing;
         };
 
         // we get a result if process.get returns 'Some' otherwise it is not ready yet
         let Some(result) = process.get() else {
-            return;
+            return Status::Parsing;
         };
 
         let Ok(worker_response) = result else {
-            set_error.set(true);
-            return;
+            return Status::DoneParsing(Err(()));
         };
 
         let Ok(player_info) = worker_response.result else {
-            set_error.set(true);
-            return;
+            return Status::DoneParsing(Err(()));
         };
 
-        on_player_info(player_info);
-        set_parse_process.set(None);
-        set_error.set(false);
+        Status::DoneParsing(Ok(player_info))
+    };
+
+    Effect::new(move |_| {
+        if let Status::DoneParsing(Ok(player_info)) = status() {
+            on_player_info(player_info);
+        }
     });
 
+    let message = move || match status() {
+        Status::Parsing => Some("Parsing demo file ..."),
+        Status::DoneParsing(Err(_)) => Some("Error parsing demo file!"),
+        _ => None,
+    };
+
     view! {
-        <input type="file" on:change=on_file_change prop:disabled = move || parse_process.get().is_some() />
-        <strong>{parse_message}</strong>
+        <input type="file" on:change=on_file_change prop:disabled = move || matches!(status(), Status::Parsing) />
+        <strong>{message}</strong>
     }
 }
