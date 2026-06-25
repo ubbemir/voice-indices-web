@@ -9,3 +9,5 @@ Some other tools simplify the last part of the process which is converting a sel
 
 ## How it works
 The tool works by parsing the demo file (using the Rust demo parser implementation by @LaihoE) and extracting each and every player's 'slot'. From that data it can then easily then compute the 'tv_listen_voice_indices' value.
+
+A somewhat detailed explanation of the 'tv_listen_voice_indices' convar can be found here: https://www.reddit.com/r/GlobalOffensive/comments/17i3zuc/comment/k6s7fjz/
