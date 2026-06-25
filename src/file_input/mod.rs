@@ -1,7 +1,9 @@
 use demo::demo::PlayerData;
 use js_sys::Uint8Array;
+use leptos::either::Either;
 use leptos::prelude::*;
-use web_sys::{HtmlInputElement, wasm_bindgen::JsCast};
+
+use thaw::*;
 
 mod worker;
 
@@ -17,11 +19,8 @@ enum Status {
 pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> impl IntoView {
     let (parse_process, set_parse_process) = signal::<Option<_>>(None);
 
-    let on_file_change = move |ev: leptos::ev::Event| {
-        let input: HtmlInputElement = ev.target().unwrap().unchecked_into();
-        if let Some(file_list) = input.files()
-            && let Some(file) = file_list.get(0)
-        {
+    let custom_request = move |file_list: FileList| {
+        if let Some(file) = file_list.get(0) {
             set_parse_process.set(Some(LocalResource::new(move || {
                 let bytes = file.bytes();
                 async move {
@@ -61,18 +60,31 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
     });
 
     let message = move || match status() {
-        Status::Parsing => Some("Parsing demo file ..."),
-        Status::DoneParsing(Err(_)) => Some("Error parsing demo file!"),
+        Status::Parsing => Some(Either::Left(view! {
+            <Spinner size=SpinnerSize::Small />
+        })),
+        Status::DoneParsing(Err(_)) => Some(Either::Right(view! {
+            <MessageBar intent=MessageBarIntent::Error>
+                <MessageBarBody>
+                    "Error parsing demo"
+                </MessageBarBody>
+            </MessageBar>
+        })),
         _ => None,
     };
 
     view! {
-        <input
-            type="file"
-            accept=".dem"
-            on:change=on_file_change
-            prop:disabled = move || matches!(status(), Status::Parsing)
-        />
-        <strong>{message}</strong>
+        <Space>
+            <Upload custom_request accept=".dem">
+                <Button
+                    disabled=move || matches!(status(), Status::Parsing)
+                    appearance=ButtonAppearance::Primary
+                    icon=icondata::BiFileImportSolid
+                >
+                    "Select Demo"
+                </Button>
+            </Upload>
+            {message}
+        </Space>
     }
 }

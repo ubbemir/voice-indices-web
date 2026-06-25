@@ -1,6 +1,7 @@
 use crate::table::SelectedSlots;
 use demo::utils::get_bitfield_from_indices;
 use leptos::prelude::*;
+use thaw::*;
 
 #[component]
 pub fn OutputField(selected_player_slots: ReadSignal<SelectedSlots>) -> impl IntoView {
@@ -10,8 +11,7 @@ pub fn OutputField(selected_player_slots: ReadSignal<SelectedSlots>) -> impl Int
     };
 
     view! {
-        <pre>
-            <code>{output}</code>
-        </pre>
+        <Label size=LabelSize::Small weight=LabelWeight::Semibold>"Command"</Label>
+        <Text tag=TextTag::Code>{output}</Text>
     }
 }
