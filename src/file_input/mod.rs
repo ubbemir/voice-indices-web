@@ -67,7 +67,12 @@ pub fn DemoFileInput(mut on_player_info: impl FnMut(PlayerInfo) + 'static) -> im
     };
 
     view! {
-        <input type="file" on:change=on_file_change prop:disabled = move || matches!(status(), Status::Parsing) />
+        <input
+            type="file"
+            accept=".dem"
+            on:change=on_file_change
+            prop:disabled = move || matches!(status(), Status::Parsing)
+        />
         <strong>{message}</strong>
     }
 }
