@@ -35,6 +35,10 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy, rustfmt
+      
+      # Required by dependency 'csgoproto'
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
 
       - name: Add WASM target
         run: rustup target add wasm32-unknown-unknown
