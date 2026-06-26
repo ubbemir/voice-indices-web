@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 use demo::demo::PlayerData;
 use leptos::prelude::*;
+use thaw::*;
 
 pub type SelectedSlots = HashSet<usize>;
 
@@ -65,22 +66,24 @@ pub fn Table(
                     teams().into_iter().map(|(_, players)| {
                         let rows = players.into_iter().map(|player| {
                             let is_selected = move || selected_player_slots.get().contains(&player.slot);
-                            let style = if player.team_number % 2 == 0 {
-                                "background-color: #bdbdbd"
+
+                            let badge_color = if player.team_number % 2 == 0 {
+                                BadgeColor::Brand
                             } else {
-                                ""
+                                BadgeColor::Danger
                             };
 
                             view! {
-                                <tr style=style>
+                                <tr on:click = move |_| on_player_select(player.slot)>
                                     <td>
-                                        <input
-                                            type="checkbox"
-                                            checked=is_selected()
-                                            on:change=move |_| on_player_select(player.slot)
-                                        />
+                                        <Checkbox checked={is_selected()} />
                                     </td>
-                                    <td>{player.name}</td>
+                                    <td>
+                                        <Space>
+                                        <Label weight=LabelWeight::Semibold>{player.name}</Label>
+                                        <Badge color=badge_color size=BadgeSize::ExtraSmall />
+                                        </Space>
+                                    </td>
                                     <td>{player.slot}</td>
                                     <td>{player.steamid}</td>
                                 </tr>

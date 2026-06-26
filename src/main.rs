@@ -1,5 +1,6 @@
 use leptos::either::Either;
 use leptos::prelude::*;
+use thaw::*;
 
 mod table;
 use table::{SelectedSlots, Table};
@@ -20,29 +21,43 @@ fn App() -> impl IntoView {
         set_player_info.set(Some(info));
     };
 
-    view! {
-        <div style="padding: 20px; font-family: Arial, sans-serif;">
-            <h1>"Demo Parser"</h1>
+    let theme = RwSignal::new(Theme::dark());
 
-            <DemoFileInput on_player_info=on_player_info />
-            {move || {
-                if let Some(players) = player_info.get() {
-                    Either::Left(view! {
-                        <Table
-                            players={
-                                let (sig, _) = signal(players.clone());
-                                sig
-                            }
-                            selected_player_slots=selected_players
-                            set_selected_player_slots=set_selected_players
-                        />
-                        <OutputField selected_player_slots=selected_players />
-                    })
-                } else {
-                    Either::Right(())
-                }
-            }}
-        </div>
+    view! {
+        <ConfigProvider theme>
+            <Layout class="app">
+                <Card>
+                    <CardHeader>
+                        <Body1>
+                            <h1>"CS2 Voice Calculator"</h1>
+                        </Body1>
+
+                        <CardHeaderAction slot>
+                            <DemoFileInput on_player_info=on_player_info />
+                        </CardHeaderAction>
+                    </CardHeader>
+
+                    {move || {
+                        if let Some(players) = player_info.get() {
+                            Either::Left(view! {
+                                <Divider />
+                                <Table
+                                    players={
+                                        let (sig, _) = signal(players.clone());
+                                        sig
+                                    }
+                                    selected_player_slots=selected_players
+                                    set_selected_player_slots=set_selected_players
+                                />
+                                <OutputField selected_player_slots=selected_players />
+                            })
+                        } else {
+                            Either::Right(())
+                        }
+                    }}
+                </Card>
+            </Layout>
+        </ConfigProvider>
     }
 }
 
