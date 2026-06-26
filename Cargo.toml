@@ -15,3 +15,4 @@ serde = { version = "1.0.228", features = ["derive"] }
 console_error_panic_hook = "0.1.7"
 thaw = { version = "=0.5.0-beta", features = ["csr"] }
 icondata = "0.7.0"
+itertools = "0.15.0"

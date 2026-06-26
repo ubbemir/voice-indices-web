@@ -1419,6 +1419,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b4baf93f58d4425749ca49a51c50ebab072c5df6994d08fed93541c331481dc"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3075,6 +3084,7 @@ dependencies = [
  "demo",
  "getrandom 0.3.4",
  "icondata",
+ "itertools 0.15.0",
  "js-sys",
  "leptos",
  "leptos_workers",

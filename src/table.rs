@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use demo::demo::PlayerData;
+use leptos::either::Either;
 use leptos::prelude::*;
 use thaw::*;
 
@@ -63,7 +64,7 @@ pub fn Table(
             </thead>
             <tbody>
                 {move || {
-                    teams().into_iter().map(|(_, players)| {
+                    itertools::intersperse_with(teams().into_iter().map(|(_, players)| {
                         let rows = players.into_iter().map(|player| {
                             let is_selected = move || selected_player_slots.get().contains(&player.slot);
 
@@ -79,9 +80,9 @@ pub fn Table(
                                         <Checkbox checked={is_selected()} />
                                     </td>
                                     <td>
-                                        <Space>
-                                        <Label weight=LabelWeight::Semibold>{player.name}</Label>
-                                        <Badge color=badge_color size=BadgeSize::ExtraSmall />
+                                        <Space justify=SpaceJustify::Center>
+                                            <Label weight=LabelWeight::Semibold>{player.name}</Label>
+                                            <Badge color=badge_color size=BadgeSize::ExtraSmall />
                                         </Space>
                                     </td>
                                     <td>{player.slot}</td>
@@ -89,10 +90,16 @@ pub fn Table(
                                 </tr>
                             }
                         }).collect::<Vec<_>>();
-                        view! {
+                        Either::Left(view! {
                             {rows}
-                        }
-                    }).collect_view()
+                        })
+                    }), || Either::Right(view! {
+                        <tr>
+                            <td colspan=4>
+                                <Divider />
+                            </td>
+                        </tr>
+                    })).collect_view()
                 }}
             </tbody>
         </table>
