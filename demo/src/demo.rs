@@ -90,9 +90,7 @@ pub fn extract_player_info(demo_data: &[u8]) -> Result<Vec<PlayerData>, Error> {
 }
 
 fn slot_from_index(index: usize, slot_offset: usize) -> usize {
-    const ONE_BASED_INDEXING_OFFSET: usize = 1;
-
-    index + slot_offset + ONE_BASED_INDEXING_OFFSET
+    index + slot_offset
 }
 
 fn get_player_slot_offset<'a>(
@@ -103,7 +101,7 @@ fn get_player_slot_offset<'a>(
         .enumerate()
         .find(|(_, p)| p.steamid == voice_sample.xuid)?;
 
-    let client_idx = voice_sample.client?;
+    let client_idx = voice_sample.entity?;
 
     (client_idx - index as i32).try_into().ok()
 }
