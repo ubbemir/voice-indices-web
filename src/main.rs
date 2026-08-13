@@ -12,7 +12,10 @@ mod output_field;
 use output_field::OutputField;
 
 mod team_output_field;
-use team_output_field::{Team, TeamOutputField};
+use team_output_field::TeamOutputField;
+
+mod utils;
+use utils::Team;
 
 #[component]
 fn App() -> impl IntoView {
@@ -29,6 +32,30 @@ fn App() -> impl IntoView {
     view! {
         <ConfigProvider theme>
             <Layout class="app">
+                {move || {
+                    if let Some(players) = player_info.get() {
+                        Either::Left(view! {
+                            <Card attr:style="position:absolute; max-width: 20%">
+                                <TeamOutputField players={
+                                        let (sig, _) = signal(players.clone());
+                                        sig
+                                    }
+                                    team=Team::Even
+                                />
+                                <Divider />
+                                <TeamOutputField players={
+                                        let (sig, _) = signal(players.clone());
+                                        sig
+                                    }
+                                    team=Team::Odd
+                                />
+                            </Card>
+                        })
+                    }  else {
+                        Either::Right(())
+                    }
+                }}
+
                 <Card>
                     <CardHeader>
                         <Body1>
@@ -52,20 +79,7 @@ fn App() -> impl IntoView {
                                     selected_player_slots=selected_players
                                     set_selected_player_slots=set_selected_players
                                 />
-                                <TeamOutputField players={
-                                        let (sig, _) = signal(players.clone());
-                                        sig
-                                    }
-                                    team=Team::Even
-                                    label="Team Blue"
-                                />
-                                <TeamOutputField players={
-                                        let (sig, _) = signal(players.clone());
-                                        sig
-                                    }
-                                    team=Team::Odd
-                                    label="Team Red"
-                                />
+
                                 <OutputField selected_player_slots=selected_players />
                             })
                         } else {
