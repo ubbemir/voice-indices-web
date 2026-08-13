@@ -5,6 +5,8 @@ use leptos::either::Either;
 use leptos::prelude::*;
 use thaw::*;
 
+use crate::utils::Team;
+
 pub type SelectedSlots = HashSet<usize>;
 
 #[component]
@@ -68,11 +70,7 @@ pub fn Table(
                         let rows = players.into_iter().map(|player| {
                             let is_selected = move || selected_player_slots.get().contains(&player.slot);
 
-                            let badge_color = if player.team_number % 2 == 0 {
-                                BadgeColor::Brand
-                            } else {
-                                BadgeColor::Danger
-                            };
+                            let badge_color = Team::from(&player).get_badge_color();
 
                             view! {
                                 <tr on:click = move |_| on_player_select(player.slot)>
