@@ -11,6 +11,9 @@ use file_input::{DemoFileInput, PlayerInfo};
 mod output_field;
 use output_field::OutputField;
 
+mod team_output_field;
+use team_output_field::{Team, TeamOutputField};
+
 #[component]
 fn App() -> impl IntoView {
     let (player_info, set_player_info) = signal::<Option<PlayerInfo>>(None);
@@ -48,6 +51,20 @@ fn App() -> impl IntoView {
                                     }
                                     selected_player_slots=selected_players
                                     set_selected_player_slots=set_selected_players
+                                />
+                                <TeamOutputField players={
+                                        let (sig, _) = signal(players.clone());
+                                        sig
+                                    }
+                                    team=Team::Even
+                                    label="Team Blue"
+                                />
+                                <TeamOutputField players={
+                                        let (sig, _) = signal(players.clone());
+                                        sig
+                                    }
+                                    team=Team::Odd
+                                    label="Team Red"
                                 />
                                 <OutputField selected_player_slots=selected_players />
                             })
