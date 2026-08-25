@@ -34,21 +34,16 @@ fn App() -> impl IntoView {
             <Layout class="app">
                 {move || {
                     if let Some(players) = player_info.get() {
+                        let players = {
+                            let (sig, _) = signal(players.clone());
+                            sig
+                        };
+
                         Either::Left(view! {
                             <Card attr:style="position:absolute; max-width: 20%">
-                                <TeamOutputField players={
-                                        let (sig, _) = signal(players.clone());
-                                        sig
-                                    }
-                                    team=Team::Even
-                                />
+                                <TeamOutputField players=players team=Team::Even />
                                 <Divider />
-                                <TeamOutputField players={
-                                        let (sig, _) = signal(players.clone());
-                                        sig
-                                    }
-                                    team=Team::Odd
-                                />
+                                <TeamOutputField players=players team=Team::Odd />
                             </Card>
                         })
                     }  else {
@@ -69,17 +64,18 @@ fn App() -> impl IntoView {
 
                     {move || {
                         if let Some(players) = player_info.get() {
+                            let players = {
+                                let (sig, _) = signal(players.clone());
+                                sig
+                            };
+
                             Either::Left(view! {
                                 <Divider />
                                 <Table
-                                    players={
-                                        let (sig, _) = signal(players.clone());
-                                        sig
-                                    }
+                                    players=players
                                     selected_player_slots=selected_players
                                     set_selected_player_slots=set_selected_players
                                 />
-
                                 <OutputField selected_player_slots=selected_players />
                             })
                         } else {
