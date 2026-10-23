@@ -416,7 +416,7 @@ dependencies = [
 [[package]]
 name = "csgoproto"
 version = "0.1.5"
-source = "git+https://github.com/LaihoE/demoparser.git?rev=e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c#e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"
+source = "git+https://github.com/ubbemir/demoparser.git?rev=4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982#4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982"
 dependencies = [
  "phf",
  "prost",
@@ -1824,7 +1824,7 @@ dependencies = [
 [[package]]
 name = "parser"
 version = "0.1.1"
-source = "git+https://github.com/LaihoE/demoparser.git?rev=e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c#e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"
+source = "git+https://github.com/ubbemir/demoparser.git?rev=4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982#4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982"
 dependencies = [
  "ahash",
  "bit_reverse",

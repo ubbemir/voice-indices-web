@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-parser = { git = "https://github.com/LaihoE/demoparser.git", rev = "e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"}
-csgoproto = { git = "https://github.com/LaihoE/demoparser.git", rev = "e8c1ad452ced4d5938219ac9a5ee6300ee1ea37c"}
+parser = { git = "https://github.com/ubbemir/demoparser.git", rev = "4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982" }
+csgoproto = { git = "https://github.com/ubbemir/demoparser.git", rev = "4a2e42cbbdc8a5b88a7f265b315c80ae9b8da982" }
 ahash = "0.8.12"
 getrandom ={ version = "0.2.17", features = ["js"] }
 thiserror = "2.0.18"
