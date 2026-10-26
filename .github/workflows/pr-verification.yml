@@ -27,7 +27,7 @@ jobs:
         run: rustup target add wasm32-unknown-unknown
 
       - name: lint
-        run: cargo clippy -- -D warnings
+        run: cargo clippy --workspace -- -D warnings
       
       - name: fmt-check
         run: cargo fmt --check

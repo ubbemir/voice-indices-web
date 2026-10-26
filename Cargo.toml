@@ -1,3 +1,7 @@
+[workspace]
+members = ["demo"]
+resolver = "3"
+
 [package]
 name = "voice-indices-web"
 version = "0.1.0"
