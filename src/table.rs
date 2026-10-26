@@ -83,8 +83,16 @@ pub fn Table(
                                             <Badge color=badge_color size=BadgeSize::ExtraSmall />
                                         </Space>
                                     </td>
-                                    <td>{player.slot}</td>
-                                    <td>{player.steamid}</td>
+                                    <td>
+                                        <Space justify=SpaceJustify::Center>
+                                            <span>{player.slot}</span>
+                                        </Space>
+                                    </td>
+                                    <td>
+                                        <Space justify=SpaceJustify::Center>
+                                            <span>{player.steamid}</span>
+                                        </Space>
+                                    </td>
                                 </tr>
                             }
                         }).collect::<Vec<_>>();
