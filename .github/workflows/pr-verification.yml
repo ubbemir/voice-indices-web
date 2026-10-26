@@ -31,3 +31,6 @@ jobs:
       
       - name: fmt-check
         run: cargo fmt --check
+
+      - name: test
+        run: cargo test --workspace
